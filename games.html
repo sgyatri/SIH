@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Language Games</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+    h2 { color: #333; }
+    .game {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 600px;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      background: #4CAF50;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover { background: #45a049; }
+    .card {
+      width: 80px;
+      height: 80px;
+      display: inline-block;
+      margin: 10px;
+      background: #ddd;
+      border-radius: 10px;
+      line-height: 80px;
+      font-size: 24px;
+      cursor: pointer;
+    }
+    .card.flipped {
+      background: #fff;
+      border: 2px solid #4CAF50;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Sign Language Interpreter Games</h1>
+
+  <!-- Game 1: Sign-to-Letter Quiz -->
+  <div class="game" id="quizGame">
+    <h2>1. Sign-to-Letter Quiz</h2>
+    <p>Show this sign: <span id="quizTarget"></span></p>
+    <p>Your sign: <span id="quizGuess">-</span></p>
+    <button onclick="newQuiz()">Next Letter</button>
+    <p id="quizResult"></p>
+  </div>
+
+  <!-- Game 2: Simon Says -->
+  <div class="game" id="simonGame">
+    <h2>2. Sign Simon Says</h2>
+    <p>Sequence: <span id="simonSeq"></span></p>
+    <p>Your input: <span id="simonInput"></span></p>
+    <button onclick="startSimon()">Start</button>
+    <p id="simonResult"></p>
+  </div>
+
+  <!-- Game 3: Speed Challenge -->
+  <div class="game" id="speedGame">
+    <h2>3. Sign Speed Challenge</h2>
+    <p>Sign this: <span id="speedTarget"></span></p>
+    <p>Your sign: <span id="speedGuess">-</span></p>
+    <p>Score: <span id="speedScore">0</span></p>
+    <p>Time left: <span id="speedTime">30</span>s</p>
+    <button onclick="startSpeed()">Start Challenge</button>
+  </div>
+
+  <!-- Game 4: Matching Game -->
+  <div class="game" id="matchGame">
+    <h2>4. Sign Match Game</h2>
+    <div id="cards"></div>
+    <p id="matchResult"></p>
+    <button onclick="initMatch()">Restart</button>
+  </div>
+
+  <script>
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
+    /* ---------------- Game 1: Quiz ---------------- */
+    function newQuiz() {
+      const target = letters[Math.floor(Math.random() * letters.length)];
+      document.getElementById("quizTarget").textContent = target;
+      document.getElementById("quizGuess").textContent = "-";
+      document.getElementById("quizResult").textContent = "";
+    }
+    function checkQuiz(predicted) {
+      document.getElementById("quizGuess").textContent = predicted;
+      const target = document.getElementById("quizTarget").textContent;
+      if (predicted === target) {
+        document.getElementById("quizResult").textContent = "✅ Correct!";
+      } else {
+        document.getElementById("quizResult").textContent = "❌ Try again!";
+      }
+    }
+
+    /* ---------------- Game 2: Simon Says ---------------- */
+    let simonSeq = [];
+    let simonUser = [];
+    function startSimon() {
+      simonSeq = [letters[Math.floor(Math.random()*letters.length)]];
+      simonUser = [];
+      updateSimon();
+    }
+    function updateSimon() {
+      document.getElementById("simonSeq").textContent = simonSeq.join(" ");
+      document.getElementById("simonInput").textContent = simonUser.join(" ");
+      document.getElementById("simonResult").textContent = "";
+    }
+    function checkSimon(predicted) {
+      simonUser.push(predicted);
+      updateSimon();
+      const idx = simonUser.length - 1;
+      if (simonUser[idx] !== simonSeq[idx]) {
+        document.getElementById("simonResult").textContent = "❌ Wrong!";
+        simonUser = [];
+      } else if (simonUser.length === simonSeq.length) {
+        document.getElementById("simonResult").textContent = "✅ Correct!";
+        simonSeq.push(letters[Math.floor(Math.random()*letters.length)]);
+        simonUser = [];
+        setTimeout(updateSimon, 1000);
+      }
+    }
+
+    /* ---------------- Game 3: Speed Challenge ---------------- */
+    let speedScore = 0, speedTime = 30, speedTimer;
+    function startSpeed() {
+      speedScore = 0;
+      speedTime = 30;
+      document.getElementById("speedScore").textContent = speedScore;
+      nextSpeed();
+      speedTimer = setInterval(() => {
+        speedTime--;
+        document.getElementById("speedTime").textContent = speedTime;
+        if (speedTime <= 0) {
+          clearInterval(speedTimer);
+          document.getElementById("speedTarget").textContent = "Game Over!";
+        }
+      }, 1000);
+    }
+    function nextSpeed() {
+      const target = letters[Math.floor(Math.random() * letters.length)];
+      document.getElementById("speedTarget").textContent = target;
+    }
+    function checkSpeed(predicted) {
+      document.getElementById("speedGuess").textContent = predicted;
+      const target = document.getElementById("speedTarget").textContent;
+      if (predicted === target) {
+        speedScore++;
+        document.getElementById("speedScore").textContent = speedScore;
+        nextSpeed();
+      }
+    }
+
+    /* ---------------- Game 4: Match Game ---------------- */
+    let firstCard = null;
+    function initMatch() {
+      const values = ["A","B","C","D"]; // small set
+      let pairs = [...values, ...values];
+      pairs.sort(() => Math.random() - 0.5);
+      const cardsDiv = document.getElementById("cards");
+      cardsDiv.innerHTML = "";
+      pairs.forEach((val, idx) => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.dataset.value = val;
+        card.onclick = () => flipCard(card);
+        cardsDiv.appendChild(card);
+      });
+    }
+    function flipCard(card) {
+      if (card.classList.contains("flipped")) return;
+      card.classList.add("flipped");
+      card.textContent = card.dataset.value;
+      if (!firstCard) {
+        firstCard = card;
+      } else {
+        if (firstCard.dataset.value === card.dataset.value) {
+          document.getElementById("matchResult").textContent = "✅ Match!";
+        } else {
+          setTimeout(() => {
+            firstCard.classList.remove("flipped");
+            card.classList.remove("flipped");
+            firstCard.textContent = "";
+            card.textContent = "";
+          }, 1000);
+        }
+        firstCard = null;
+      }
+    }
+    initMatch();
+
+    /* ----------------- WHERE TO ADD YOUR INTERPRETER -----------------
+       Each game has a check function (checkQuiz, checkSimon, checkSpeed).
+       When your interpreter predicts a sign (e.g., "A"), just call:
+
+       checkQuiz("A");   // for Quiz game
+       checkSimon("A");  // for Simon game
+       checkSpeed("A");  // for Speed game
+
+       For Match game, you can also use gestures as card selectors later.
+    ------------------------------------------------------------------- */
+  </script>
+</body>
+</html>
+
