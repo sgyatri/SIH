@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kodeseye — Learn ASL with AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="brand">
+                <div class="logo" aria-hidden="true">🤟</div>
+                <div class="title">
+                    <h1>Kodeseye</h1>
+                    <p>Learn ASL through interactive activities</p>
+                </div>
+            </div>
+            <div class="hud">
+                <div class="chip" title="Experience">✨ XP: <strong>1,480</strong></div>
+                <div class="chip" title="Streak">🔥 Streak: <strong>6</strong></div>
+                <div class="chip" title="Level">🛡️ Level: <strong>8</strong></div>
+            </div>
+        </header>
+
+        <div class="layout">
+            <main>
+                <div class="card" style="margin-bottom: 16px">
+                    <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
+                        <div>
+                            <h2 style="margin: 0 0 8px">Choose an activity</h2>
+                            <p style="margin: 0; color: var(--muted)">Four modes to learn and practice ASL. Use the AI Cam for visual assistance.</p>
+                        </div>
+                        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                            <span class="pill">🏆 Goal: 300 XP today</span>
+                            <span class="pill">⏱️ Avg. round: 45s</span>
+                        </div>
+                    </div>
+                </div>
+
+                <section class="activities">
+                    <article class="card activity">
+                        <span class="badge">Tutorial</span>
+                        <h3>1) ASL Alphabet Tutorial</h3>
+                        <p>Learn and practice each ASL alphabet sign (A-Z) with interactive examples.</p>
+                        <div class="progress" aria-label="progress"><i style="width: 100%"></i></div>
+                        <a class="cta" href="#act1"><span>Start</span> ▶</a>
+                    </article>
+
+                    <article class="card activity">
+                        <span class="badge" style="background: rgb(247 200 90 / 18%); color: var(--warn); border-color: rgb(247 200 90 / 45%);">Speed</span>
+                        <h3>2) Speed Quiz</h3>
+                        <p>Quick-fire quiz: identify ASL signs as fast as you can.</p>
+                        <div class="progress" aria-label="progress"><i style="width: 60%"></i></div>
+                        <a class="cta" href="#act2"><span>Start</span> ▶</a>
+                    </article>
+
+                    <article class="card activity">
+                        <span class="badge" style="background: rgb(54 211 153 / 18%); color: var(--ok); border-color: rgb(54 211 153 / 45%);">Match</span>
+                        <h3>3) Sign Match</h3>
+                        <p>Match ASL signs to their letters in this memory game.</p>
+                        <div class="progress" aria-label="progress"><i style="width: 40%"></i></div>
+                        <a class="cta" href="#act3"><span>Start</span> ▶</a>
+                    </article>
+
+                    <article class="card activity">
+                        <span class="badge" style="background: linear-gradient(90deg, #ffd7a8, #ffd1f2); color: #8a3bff; border-color: rgba(138, 59, 255, 0.15);">Challenge</span>
+                        <h3>4) Sign Challenge</h3>
+                        <p>Test your skills with randomized sign challenges.</p>
+                        <div class="progress" aria-label="progress"><i style="width: 20%"></i></div>
+                        <a class="cta" href="#act4"><span>Start</span> ▶</a>
+                    </article>
+                </section>
+
+                <div style="height: 18px"></div>
+
+                <div class="card">
+                    <h3>Recent Sessions</h3>
+                    <p style="color: var(--muted); margin-top: 6px">Last played: Speed Quiz — 3 mins ago. Accuracy: 89%.</p>
+                </div>
+            </main>
+
+            <aside class="ai-column">
+                <div class="card ai-cam">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <h3 style="margin: 0">AI Cam</h3>
+                        <span class="small">Vision assist</span>
+                    </div>
+                    <div class="cam-preview" id="main-cam-preview" aria-hidden="true">
+                        <div style="text-align: center">
+                            <div style="font-size: 36px">🎥</div>
+                            <p class="small" style="margin-top: 8px">Webcam + hand-tracking placeholder</p>
+                        </div>
+                    </div>
+                    <div class="cam-meta">
+                        <span class="pill" id="cam-status">Status: Idle</span>
+                        <span class="pill">Model: LocalPose</span>
+                        <span class="pill" id="cam-latency">Latency: --</span>
+                    </div>
+                    <div style="display: flex; gap: 8px; margin-top: 8px">
+                        <button class="cta" id="enable-cam-btn" style="flex: 1; justify-content: center">Enable Cam</button>
+                        <button class="cta" id="tips-btn" style="background: linear-gradient(135deg, var(--warn), #ffecb3); color: #3b2b00;">Tips</button>
+                    </div>
+                    <p class="small" style="margin-top: 8px">AI Cam can provide live pose overlays and suggest corrections for your signs.</p>
+                </div>
+
+                <div style="height: 12px"></div>
+
+                <div class="card">
+                    <h3>Daily Challenges</h3>
+                    <ul style="margin: 8px 0 0 18px; color: var(--muted)">
+                        <li>Learn 5 alphabet signs</li>
+                        <li>Complete 2 Speed Quiz runs</li>
+                        <li>Match 10 signs correctly</li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+
+        <footer>
+            <p class="small">Kodeseye — Learn ASL through interactive activities</p>
+        </footer>
+    </div>
+
+    <!-- Activity Modals -->
+    <section class="modal" id="act1" aria-labelledby="act1-title">
+        <div class="sheet">
+            <a class="close" href="#">✖ Close</a>
+            <header>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h2 id="act1-title">ASL Alphabet Tutorial</h2>
+                    <div class="pill">A-Z</div>
+                </div>
+            </header>
+            <main class="two-col">
+                <div>
+                    <div class="card asl-sign-container">
+                        <div class="asl-sign" id="asl-sign-display">A</div>
+                        <div class="sign-label">Letter: <span id="asl-letter">A</span></div>
+                        <div class="sign-description" id="asl-description">Make a fist with your thumb held against the side of your hand.</div>
+                        <div class="hand-icons">
+                            <div class="hand-icon">✋</div>
+                            <div class="hand-icon">🖐️</div>
+                            <div class="hand-icon">🤚</div>
+                        </div>
+                    </div>
+                    <div id="tutorial-controls">
+                        <button class="cta" id="tutorial-prev">◀ Prev</button>
+                        <button class="cta" id="tutorial-next">Next ▶</button>
+                    </div>
+                    <div id="tutorial-feedback"></div>
+                </div>
+                <div>
+                    <div class="card" style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 240px;">
+                        <div id="tutorial-cam-preview">
+                            <span id="tutorial-cam-placeholder">Camera preview</span>
+                        </div>
+                        <button class="cta" id="tutorial-enable-cam" style="margin-top: 10px">Enable Camera</button>
+                        <div id="tutorial-cam-error" class="camera-error" style="display: none;"></div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </section>
+
+    <section class="modal" id="act2" aria-labelledby="act2-title">
+        <div class="sheet">
+            <a class="close" href="#">✖ Close</a>
+            <header>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h2 id="act2-title">Speed Quiz</h2>
+                    <div class="pill" id="quiz-timer">⏱ 60s</div>
+                </div>
+            </header>
+            <main class="two-col">
+                <div>
+                    <div class="card asl-sign-container">
+                        <div class="asl-sign" id="quiz-sign-display">?</div>
+                        <div class="sign-label">Which letter is this?</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="card">
+                        <h3>Choose the letter</h3>
+                        <div class="match-game" id="quiz-options">
+                            <div class="match-card" data-letter="A">A</div>
+                            <div class="match-card" data-letter="B">B</div>
+                            <div class="match-card" data-letter="C">C</div>
+                            <div class="match-card" data-letter="D">D</div>
+                            <div class="match-card" data-letter="E">E</div>
+                            <div class="match-card" data-letter="F">F</div>
+                        </div>
+                        <div style="margin-top: 18px; color: var(--muted); font-size: 14px">
+                            Score: <span id="quiz-score">0</span> | Correct: <span id="quiz-correct">0</span> | Incorrect: <span id="quiz-incorrect">0</span>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </section>
+
+    <section class="modal" id="act3" aria-labelledby="act3-title">
+        <div class="sheet">
+            <a class="close" href="#">✖ Close</a>
+            <header>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h2 id="act3-title">Sign Match Game</h2>
+                    <div class="pill" id="match-timer">⏱ 120s</div>
+                </div>
+            </header>
+            <main>
+                <div class="card">
+                    <h3>Match the signs to their letters</h3>
+                    <p style="color: var(--muted); margin-top: 6px">Click on cards to flip them and find matching pairs.</p>
+                    <div class="match-game" id="match-board">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                    <div style="margin-top: 18px; color: var(--muted); font-size: 14px">
+                        Pairs found: <span id="match-pairs">0</span>/6 | Moves: <span id="match-moves">0</span>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </section>
+
+    <section class="modal" id="act4" aria-labelledby="act4-title">
+        <div class="sheet">
+            <a class="close" href="#">✖ Close</a>
+            <header>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h2 id="act4-title">Sign Challenge</h2>
+                    <div class="pill">⚡ Live</div>
+                </div>
+            </header>
+            <main>
+                <div class="card asl-sign-container">
+                    <div class="asl-sign" id="challenge-sign-display">A</div>
+                    <div class="sign-label">Sign: <span id="challenge-letter">A</span></div>
+                    <div class="sign-description" id="challenge-description">Make the sign for this letter</div>
+                </div>
+                <div style="margin-top: 16px; display: flex; gap: 8px; justify-content: flex-end">
+                    <button class="cta" id="challenge-check">Check Sign</button>
+                    <button class="cta" id="challenge-next">Next Sign</button>
+                </div>
+            </main>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
